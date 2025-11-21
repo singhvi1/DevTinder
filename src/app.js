@@ -4,6 +4,7 @@ const { connectDB } = require("./config/database");
 const cookieParcer = require("cookie-parser");
 const cors =require('cors')
 require("dotenv").config()
+require("./utils/cronjon")
 
 app.use(express.json());
 app.use(cookieParcer());
