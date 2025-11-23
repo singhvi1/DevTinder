@@ -72,7 +72,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    memeberShipType: {
+    memberShipType: {
       type: String,
     },
     about: {
