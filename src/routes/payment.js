@@ -57,7 +57,7 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
 
 paymentRouter.post("/payment/webhook", async (req, res) => {
   try {
-    const webhookSignature = req.headers["X-Razorpay-Signature"];
+    const webhookSignature = req.headers("X-Razorpay-Signature");
     // const webhookSignature=req.get["X-Razorpay-Signature"];
     const isWbhookValid = validateWebhookSignature(
       JSON.stringify(req.body),
@@ -74,8 +74,8 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     const user = await User.findOne({ _id: payment.userId })
     user.isPremium = true;
     user.memeberShipType = payment.notes.memeberShipType;
-console.log(paymentDetails)
-console.log("paymentDetails")
+    console.log(paymentDetails)
+    console.log("paymentDetails")
   } catch (err) {
     console.error(err);
     return res.json({
