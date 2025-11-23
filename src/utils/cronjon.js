@@ -24,7 +24,6 @@ cron.schedule("0 8 * * *", async () => {
       //send email
       try {
         const res = await sendEmail.run("New Friend Request Pending For " + email, "there are so many friend request pending please login to tinderCopy.me and accept req")
-        console.log(res)
       } catch (err) {
         console.error(err);
       }

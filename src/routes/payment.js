@@ -14,7 +14,6 @@ const User = require("../models/user");
 paymentRouter.post("/payment/create", userAuth, async (req, res) => {
   try {
     const { firstName, lastName, emailId } = req.user;
-    console.log(req.user);
     const { memberShipType } = req.body;
     const order = await razorpayInstance.orders.create({
       amount: memberShipAmount[memberShipType] * 100,
@@ -28,7 +27,6 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
         memberShipType: memberShipType,
       },
     });
-    console.log(order);
 
     //save it in my db
     const payment = new Payment({
@@ -79,8 +77,6 @@ paymentRouter.post("/payment/webhook",express.raw({ type: "application/json" }),
     user.isPremium = true;
     user.memberShipType = payment.notes.memberShipType;
     await user.save();
-    console.log(paymentDetails)
-    console.log("paymentDetails")
   } catch (err) {
     console.error(err);
     return res.json({
