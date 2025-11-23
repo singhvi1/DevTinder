@@ -47,13 +47,13 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
   } catch (err) {
     return res.status(400).json({
       msg: err?.reason + " razorPayment create payment failure",
-      data: err,
+      data: err.error || err,
     });
   }
 });
 
 
-paymentRouter.post("/payment/webhook",express.raw({ type: "application/json" }), async (req, res) => {
+paymentRouter.post("/payment/webhook", express.raw({ type: "application/json" }), async (req, res) => {
   try {
     const webhookSignature = req.headers["x-razorpay-signature"];
     // const webhookSignature=req.get["X-Razorpay-Signature"];
@@ -81,9 +81,29 @@ paymentRouter.post("/payment/webhook",express.raw({ type: "application/json" }),
     console.error(err);
     return res.json({
       message: "webhook error " + err.message,
-      data: err,
+      data: err.error || err,
     });
   }
 });
 
+
+paymentRouter.get("/premium/verify", userAuth, async (req, res) => {
+  try {
+    const user = req.user;
+    if (user.isPremium) {
+      return res.json({
+        isPremium: true,
+      })
+    }
+    return res.josn({
+      isPremium: false,
+    })
+  }
+  catch (err) {
+    res.json({
+      message: "not able to verify payment " + err.message,
+      data: { ...err }
+    })
+  }
+})
 module.exports = paymentRouter;
