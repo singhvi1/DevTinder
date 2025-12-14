@@ -53,7 +53,7 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
 });
 
 
-paymentRouter.post("/payment/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+paymentRouter.post("/payment/webhook", async (req, res) => {
   try {
     const webhookSignature = req.headers["x-razorpay-signature"];
     // const webhookSignature=req.get["X-Razorpay-Signature"];
@@ -102,7 +102,7 @@ paymentRouter.get("/premium/verify", userAuth, async (req, res) => {
   catch (err) {
     res.json({
       message: "not able to verify payment " + err.message,
-      data: { ...err }
+      data: err | err.error
     })
   }
 })
